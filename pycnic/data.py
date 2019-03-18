@@ -27,6 +27,7 @@ STATUSES = {
         415: "415 Unsupported Media Type",
         417: "417 Expectation Failed",
         422: "422 Unprocessable Entity",
+        424: "424 Failed Dependency",
         428: "428 Precondition Required",
         429: "429 Too Many Requests",
         431: "431 Request Header Fields Too Large",
@@ -37,5 +38,3 @@ STATUSES = {
         504: "504 Gateway Timeout",
         577: "577 Unknown Status",
 }
-
-
