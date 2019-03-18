@@ -12,7 +12,7 @@ from . import errors
 class Handler(object):
 
     request = None
-    response = None 
+    response = None
 
 
 class Request(object):
@@ -28,7 +28,7 @@ class Request(object):
         self.path = path
         self.method = method.upper()
         self.environ = environ
-    
+
     def get_header(self, name, default=None):
         return self.headers.get(name.title(), default)
 
@@ -61,12 +61,12 @@ class Request(object):
 
         try:
             qs = self.environ["QUERY_STRING"]
-            self._json_args = utils.query_string_to_json(qs) 
+            self._json_args = utils.query_string_to_json(qs)
         except Exception:
-            raise errors.HTTP_400("Invalid JSON in request query string") 
+            raise errors.HTTP_400("Invalid JSON in request query string")
 
         return self._json_args
- 
+
     @property
     def body(self):
         if self._body is not None:
@@ -119,11 +119,11 @@ class Request(object):
         except KeyError:
             return self.environ['REMOTE_ADDR']
 
+
 class Response(object):
-    
 
     def __init__(self, status_code):
-        self.header_dict = { 
+        self.header_dict = {
             "Content-Type": "application/json"
         }
         self._headers = []
@@ -143,7 +143,7 @@ class Response(object):
 
         self.cookie_dict[key] = "%s;%s%s path=%s; %s"\
             %(value, domain, expires, path, "; ".join(flags))
-        
+
     def delete_cookie(self, key):
         self.set_cookie(key, "DELETED", expires="Thu, 01 Jan 1970 00:00:00 GMT")
 
@@ -174,7 +174,7 @@ class WSGI:
     headers = None
     strip_path = True
     json_cls = None
-        
+
     def __init__(self, environ, start_response):
 
         if not self.logger:
@@ -199,8 +199,8 @@ class WSGI:
         self.environ = environ
         self.start = start_response
         self.response.set_header("Content-Type", "application/json")
-       
-            
+
+
     def __iter__(self):
         try:
             if self.before:
@@ -222,7 +222,7 @@ class WSGI:
                 headers += err.headers
             self.start(self.response.status, headers)
             resp = err.response()
-    
+
         except Exception as err:
             self.logger.exception(err)
             headers = [("Content-Type", "application/json")]
@@ -260,7 +260,7 @@ class WSGI:
     def delegate(self):
         path = self.request.path
         method = self.request.method
-                
+
         for pattern, handler in self.routes:
             # Set defaults for handler
             handler.request = self.request
@@ -284,7 +284,7 @@ class WSGI:
                     handler.after()
 
                 return output
-                               
+
         raise errors.HTTP_404("Path %s not found"%(path))
 
 
