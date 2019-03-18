@@ -181,7 +181,7 @@ class WSGI:
     def __init__(self, environ, start_response):
 
         if not self.logger:
-            self.logger = logging.Logger(__name__)
+            self.logger = logging.getLogger(__name__)
 
         self.logger.debug("WSGI __init__ called")
 
